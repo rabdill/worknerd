@@ -31,7 +31,6 @@ do
     sed -i 's|/positions/|http://jobs.github.com/positions/|' listings.txt
     declare -a titles
     declare -a urls
-    declare -a salaries
     declare -a descriptions
     declare -a companies
 
@@ -83,15 +82,35 @@ do
     fi
 
     echo "${titles[$i]} is at ${companies[$i]}"
+
+    #get description
+    saving=0
+    while read line
+    do
+	if [[ $saving -eq 1 ]]; then
+	    if [[ `echo $line | grep -c "<!-- /.column.main -->"` -eq 0 ]]; then
+	        echo $line >> "description.txt"
+    	    else
+	        saving=0
+	    fi
+	fi
+
+	if [[ `echo $line | grep -c "div class=\"column main \""` -eq 1 ]]; then
+	    saving=1
+	fi
+    done < "temp.txt"
+
+    cat description.txt
+    descriptions[$i]=`cat description.txt`
+    rm description.txt
 	
     #escape the mysql special characters
 	urls[$i]=`echo ${urls[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g"`
 	titles[$i]=`echo ${titles[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g"`
-	salaries[$i]=`echo ${salaries[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g"`
 	descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g"`
 
 	SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-INSERT INTO listings (url, company, title, salary, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${salaries[$i]}', '${descriptions[$i]}')
+INSERT INTO listings (url, company, title, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}')
 EOF`	
 
 	i=$(( i+1 ))
