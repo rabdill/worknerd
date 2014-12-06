@@ -16,7 +16,7 @@ do
     curl -G 'http://www.dice.com/job/results/${zip}' -d caller=basic -d q=${query} -d x=all -d p=z -d n=50 -d o=$offset  > listings.txt
     #Strip out everything but the links to the job listings
     cat listings.txt | grep "\<a href=\"/job/result/" > listings2.txt
-    cp listings2.txt listings.txt
+    mv listings2.txt listings.txt
 
     #strip out the leading spaces and stuff
     sed -i 's/^.*<div>//' listings.txt
@@ -61,7 +61,8 @@ do
 
 	else
 	    descriptions[$i]=`cat temp.txt | awk '/class=\"job_description\"/,/<\/div>/' | grep \<p\> | sed 's/^[^<]*<p>//g' | sed 's/\<\/p\>[^a-z]*$//g'`
-	    companies[$i]="unknown"
+	    companies[$i]=`cat testing.txt | grep 'a href="/jobsearch/company' | sed 's/\s*<dd><.*>\(.*\)<\/a><\/dd>/\1/g'`
+	    echo ${urls[$i]} >> to-research.txt
 	fi
 
     #escape the mysql special characters
