@@ -27,6 +27,7 @@ do
     declare -a urls
     declare -a salaries
     declare -a descriptions
+    declare -a companies
 
 #Collect the job links
     let i=0
@@ -52,12 +53,15 @@ do
 	#scrape out the salary section
 	salaries[$i]=`cat temp.txt | grep baseSalary | sed 's/ *<span property="baseSalary" content="\([^"]*\)"><\/span>/\1/g'`
 
-	#figure out which description format is on the page, scrape it
+	#figure out which format is on the page, scrape it
 	if [[ `cat temp.txt | grep -c 'div id=\"detailDescription\"'` -gt 0 ]]
 	then
 	    descriptions[$i]=`cat temp.txt | grep 'div id=\"detailDescription\"' | sed 's/^ *<div id="detailDescription">//g' | sed 's/<\/div>//g'`
+	    companies[$i]=`cat temp.txt | grep \<h2\>for | sed 's/.*>for \(.*\) in .*$/\1/g'`
+
 	else
 	    descriptions[$i]=`cat temp.txt | awk '/class=\"job_description\"/,/<\/div>/' | grep \<p\> | sed 's/^[^<]*<p>//g' | sed 's/\<\/p\>[^a-z]*$//g'`
+	    companies[$i]="unknown"
 	fi
 
     #escape the mysql special characters
@@ -67,7 +71,7 @@ do
 	descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g"`
 
 	SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-INSERT INTO listings (url, title, salary, description) VALUES ('${urls[$i]}', '${titles[$i]}', '${salaries[$i]}', '${descriptions[$i]}')
+INSERT INTO listings (url, company, title, salary, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${salaries[$i]}', '${descriptions[$i]}')
 EOF`	
 
 	i=$(( i+1 ))
