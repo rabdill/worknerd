@@ -47,21 +47,28 @@ do
     i=0
     while [[ $i -lt $total ]]
     do
-	#read the job listing into a file
-	curl -L ${urls[$i]} > temp.txt
-
-	#scrape out the salary section
-	salaries[$i]=`cat temp.txt | grep baseSalary | sed 's/ *<span property="baseSalary" content="\([^"]*\)"><\/span>/\1/g'`
-	companies[$i]=`cat temp.txt | grep 'companyName =' | sed 's/\s*companyName = "\([^"]*\)";.*$/\1/'` 
-	#figure out which format is on the page, scrape it
-	if [[ `cat temp.txt | grep -c 'div id=\"detailDescription\"'` -gt 0 ]]
-	then
-	    descriptions[$i]=`cat temp.txt | grep 'div id=\"detailDescription\"' | sed 's/^ *<div id="detailDescription">//g' | sed 's/<\/div>//g'`
-
+	#check if you already have the listing
+	listing_check=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
+	SELECT COUNT(url) FROM listings WHERE url="${urls[$i]}";	
+EOF`
+	if [[ listing_check -gt 0 ]]; then
+	    echo "Already have that listing."
 	else
-	    descriptions[$i]=`cat temp.txt | awk '/class=\"job_description\"/,/<\/div>/' | grep \<p\> | sed 's/^[^<]*<p>//g' | sed 's/\<\/p\>[^a-z]*$//g'`
-	fi
+	    #read the job listing into a file
+	    curl -L ${urls[$i]} > temp.txt
 
+	    #scrape out the salary section
+	    salaries[$i]=`cat temp.txt | grep baseSalary | sed 's/ *<span property="baseSalary" content="\([^"]*\)"><\/span>/\1/g'`
+	    companies[$i]=`cat temp.txt | grep 'companyName =' | sed 's/\s*companyName = "\([^"]*\)";.*$/\1/'` 
+	    #figure out which format is on the page, scrape it
+	    if [[ `cat temp.txt | grep -c 'div id=\"detailDescription\"'` -gt 0 ]]
+	    then
+	        descriptions[$i]=`cat temp.txt | grep 'div id=\"detailDescription\"' | sed 's/^ *<div id="detailDescription">//g' | sed 's/<\/div>//g'`
+
+	    else
+	        descriptions[$i]=`cat temp.txt | awk '/class=\"job_description\"/,/<\/div>/' | grep \<p\> | sed 's/^[^<]*<p>//g' | sed 's/\<\/p\>[^a-z]*$//g'`
+	    fi
+	
     #escape the mysql special characters (and HTML)
 	urls[$i]=`echo ${urls[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
 	titles[$i]=`echo ${titles[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
@@ -69,9 +76,9 @@ do
 	descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
 
 	SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-INSERT INTO listings (url, company, title, salary, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${salaries[$i]}', '${descriptions[$i]}')
-EOF`	
-
+INSERT INTO unprocessed (url, company, title, salary, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${salaries[$i]}', '${descriptions[$i]}')
+EOF`
+	fi	
 	i=$(( i+1 ))
     done
     offset=$(( offset+50 ))
