@@ -52,17 +52,14 @@ do
 
 	#scrape out the salary section
 	salaries[$i]=`cat temp.txt | grep baseSalary | sed 's/ *<span property="baseSalary" content="\([^"]*\)"><\/span>/\1/g'`
-
+	companies[$i]=`cat temp.txt | grep 'companyName =' | sed 's/\s*companyName = "\([^"]*\)";.*$/\1/'` 
 	#figure out which format is on the page, scrape it
 	if [[ `cat temp.txt | grep -c 'div id=\"detailDescription\"'` -gt 0 ]]
 	then
 	    descriptions[$i]=`cat temp.txt | grep 'div id=\"detailDescription\"' | sed 's/^ *<div id="detailDescription">//g' | sed 's/<\/div>//g'`
-	    companies[$i]=`cat temp.txt | grep \<h2\>for | sed 's/.*>for \(.*\) in .*$/\1/g'`
 
 	else
 	    descriptions[$i]=`cat temp.txt | awk '/class=\"job_description\"/,/<\/div>/' | grep \<p\> | sed 's/^[^<]*<p>//g' | sed 's/\<\/p\>[^a-z]*$//g'`
-	    companies[$i]=`cat testing.txt | grep 'a href="/jobsearch/company' | sed 's/\s*<dd><.*>\(.*\)<\/a><\/dd>/\1/g'`
-	    echo ${urls[$i]} >> to-research.txt
 	fi
 
     #escape the mysql special characters

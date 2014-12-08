@@ -16,8 +16,7 @@ $data=mysql_query($query);
 <thead><th>Job<th>Company<th>Salary<tbody>
 <?php
 while ($info=mysql_fetch_array($data)) {
-echo "<tr><td><a href='" . $info['url'];
-echo "'>" . $info['title'] . "</a><td>" . $info['company'] . "<td>" . $info['salary'];
+echo "<tr><td><a href='" . $info['url'] . "'>" . $info['title'] . "</a><td>" . $info['company'] . "<td>" . $info['salary'] . "\n";
 }
 
 ?>
