@@ -22,7 +22,7 @@ EOF`" > to-tag.txt
     while read listingid
     do
         dupcheck=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-SELECT COUNT(tagid) FROM tags WHERE listingid=$listingid AND techid=$techid;
+SELECT COUNT(tagid) FROM tags WHERE listingid="$listingid" AND techid="$techid";
 EOF` 
 
 	if [[ dupcheck -eq 0 ]]; then
