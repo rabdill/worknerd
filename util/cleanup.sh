@@ -1,5 +1,5 @@
 #! /bin/bash
 
 
-rm spider/*.txt
-rm util/*.txt
+rm ../spider/*.txt
+rm ../util/*.txt
