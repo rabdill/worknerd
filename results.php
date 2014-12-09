@@ -1,4 +1,4 @@
-<h1>worknerd.com</h1>
+<a href="/"><h1>worknerd.com</h1></a>
 
 <?php	
 //Connect to DB:
@@ -12,7 +12,7 @@ LEFT JOIN tags t ON L.jobid=t.jobid
 LEFT JOIN techs x ON t.techid=x.techid
 WHERE x.techid='" . $_GET['tech'] . "';";
 
-echo $query;
+#echo $query;
 
 $data=mysql_query($query);
 ?>
