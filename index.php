@@ -1,3 +1,9 @@
+<?php
+//Connect to DB:
+date_default_timezone_set ('America/New_York');
+$data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkasLDJA7a&Aj");
+$data=mysql_select_db("results"); ?>
+
 <html>
 <body>
 <h1>Work Nerd</h1>
@@ -6,13 +12,13 @@
 <form action="results.php" method="GET">
 <?php
 
-$query = "SELECT * FROM techs;"
+$query = "SELECT * FROM techs;";
 $data=mysql_query($query);
 
 while($info = mysql_fetch_array($data))
 {
-	echo "<label class='btn btn-check'><input type='checkbox' name='place[]' value='" . $info['techid'];
-	echo "'>" . $info['tech'] . "</label>";
+	echo "<label><input type='checkbox' name='tech' value='" . $info['techid'];
+	echo "'>" . $info['tech'] . "</label><br>";
 }
 ?>                                                                      
 

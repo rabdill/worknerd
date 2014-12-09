@@ -6,10 +6,14 @@ date_default_timezone_set ('America/New_York');
 $data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkasLDJA7a&Aj");
 $data=mysql_select_db("results");
 
+$query="SELECT L.url AS url, L.company AS company, L.title AS title, L.salary as salary, x.tech as tech
+FROM listings L
+LEFT JOIN tags t ON L.jobid=t.jobid
+LEFT JOIN techs x ON t.techid=x.techid
+WHERE x.techid='" . $_GET['tech'] . "';";
 
+echo $query;
 
-
-$query="SELECT url, company, title, salary FROM listings ORDER BY company DESC;";
 $data=mysql_query($query);
 ?>
 <table border=1>
