@@ -18,7 +18,7 @@ echo $query;
 $data=mysql_query($query);
 ?>
 <table border=1>
-<thead><th>Job<th>Company<th>Salary<th>Tags</tbody>
+<thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
 <?php
 while ($info=mysql_fetch_array($data)) {
     echo "<tr><td><a href='" . $info['url'] . "'>";
@@ -34,10 +34,15 @@ while ($info=mysql_fetch_array($data)) {
 	WHERE t.jobid='" . $info['jobid'] . "';";
     #echo $query1;
     $data1=mysql_query($query1);
+    $points=0;
     while ($info1=mysql_fetch_array($data1)) {
-	if(in_array($info1['techid'], $_GET['tech'])) echo "<strong>" . $info1['tech'] . "</strong> ";
+	if(in_array($info1['techid'], $_GET['tech'])) {
+	    echo "<strong>" . $info1['tech'] . "</strong> ";
+	    $points += 1;
+	}
 	else echo $info1['tech'] . " ";
     }
+    echo "<td><strong>" . $points . "</strong>\n";
 }
 
 ?>
