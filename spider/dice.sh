@@ -1,6 +1,6 @@
 #! /bin/bash
 
-source ../dbcredentials.sh
+source /var/www/html/worknerd/dbcredentials.sh
 
 query=$1
 zip=$2

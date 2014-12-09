@@ -1,6 +1,6 @@
 #! /bin/bash
 
-source ../dbcredentials.sh
+source /var/www/html/worknerd/dbcredentials.sh
 
 echo "`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 SELECT tech FROM techs
