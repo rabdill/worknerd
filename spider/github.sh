@@ -71,19 +71,19 @@ EOF`
         	    lookahead=1000
         	    while read line
         	    do
-        	    if [[ $lookahead -eq 0 ]]; then
-            	    companies[$i]="$line"
-            	    echo "Company is now |${companies[$i]}|"
-            	    lookahead=-1
-        	    else
-            	        lookahead=$(( lookahead-1 ))
-        	    fi
+        	        if [[ $lookahead -eq 0 ]]; then
+            	    	    companies[$i]="$line"
+            	    	    echo "Company is now |${companies[$i]}|"
+            	    	    lookahead=-1
+        	    	else
+            	            lookahead=$(( lookahead-1 ))
+        	    	fi
 
-        	    if [[ `echo $line | grep -c "<div class=\"module logo\">"` -gt 0 ]]
-        	    then
-            	    echo "Found the target div!"
-           	    lookahead=3
-        	    fi      
+        	    	if [[ `echo $line | grep -c "<div class=\"module logo\">"` -gt 0 ]]
+        	    	then
+            	    	    echo "Found the target div!"
+           	    	    lookahead=3
+        	    	fi      
         	    done < "temp.txt"
     	    fi
 
@@ -96,18 +96,21 @@ EOF`
 		if [[ $saving -eq 1 ]]; then
 	            if [[ `echo $line | grep -c "<!-- /.column.main -->"` -eq 0 ]]; then
 	                echo $line >> "description.txt"
+			echo "Just wrote |$line| to file:"
     	            else
-	            saving=0
+	                saving=0
+			echo "Not interesting: |$line|"
 	            fi
 		fi
 
-		if [[ `echo $line | grep -c "div class=\"column main \""` -eq 1 ]]; then
+		if [[ `echo $line | grep -c "div class=\"column main "` -eq 1 ]]; then
 	    	    saving=1
+		    echo "TIME TO GO!"
 		fi
     	    done < "temp.txt"
 
-    descriptions[$i]=`cat description.txt`
-    rm description.txt
+    	    descriptions[$i]=`cat description.txt`
+    	    rm description.txt
 	
     #escape the mysql special characters (and HTML)
 	urls[$i]=`echo ${urls[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\\;/g' | sed 's/>/\&gt\\;/g';`
@@ -115,7 +118,7 @@ EOF`
 	descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\\;/g' | sed 's/>/\&gt\\;/g';`
 
 	SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-INSERT INTO listings (url, company, title, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}')
+INSERT INTO unprocessed (url, company, title, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}')
 EOF`	
 	fi
 	i=$(( i+1 ))
