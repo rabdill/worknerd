@@ -18,7 +18,7 @@ $data=mysql_query($query);
 
 while($info = mysql_fetch_array($data))
 {
-	echo "<label><input type='radio' name='tech' value='" . $info['techid'];
+	echo "<label><input type='checkbox' name='tech[]' value='" . $info['techid'];
 	echo "'>" . $info['tech'] . "</label><br>";
 }
 ?>                                                                      
