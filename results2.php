@@ -18,7 +18,12 @@ LEFT JOIN techs x ON t.techid=x.techid";
 echo $query;
 $data=mysql_query($query);
 
-while ($info=mysql_fetch_array($data)) {    
+while ($info=mysql_fetch_array($data)) {
+    $url[] = $info['url'];
+    $title[] = $info['title'];
+    $company[] = $info['company'];
+    $salary[] = $info['salary'];
+
     $query1="SELECT x.tech AS tech, x.techid AS techid FROM techs x
 	LEFT JOIN tags t ON x.techid=t.techid
 	WHERE t.jobid='" . $info['jobid'] . "';";
@@ -33,12 +38,6 @@ while ($info=mysql_fetch_array($data)) {
     $score[] = $points;
 }
 
-foreach ($data as $key => $row) {
-    $url[$key]  = $row['url'];
-    $title[$key] = $row['title'];
-    $company[$key] = $row['company'];
-    $salary[$key] = $row['salary'];
-}
 
 array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary)
 
