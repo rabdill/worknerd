@@ -43,7 +43,7 @@ EOF`
 	    #read the job listing into a file
 	    curl -L ${urls[$i]} > temp.txt
 
-	    #scrape title
+	    #scrape title****************this is where i left off************
 	    salaries[$i]=`cat temp.txt | grep baseSalary | sed 's/ *<span property="baseSalary" content="\([^"]*\)"><\/span>/\1/g'`
 
 	#escape the mysql special characters (and HTML)
