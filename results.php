@@ -9,13 +9,22 @@ date_default_timezone_set ('America/New_York');
 $data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkasLDJA7a&Aj");
 $data=mysql_select_db("results");
 
+#make sure nobody screws up by checking the "required" box but not the "search" box:
+if (isset($_GET['required'])) $search = array_unique(array_merge($_GET['tech'], $_GET['required']));
+else $search = $_GET['tech'];
+
 $query = "SELECT L.jobid AS jobid, L.url AS url, L.company AS company, L.title AS title, L.salary as salary, x.tech as tech
 FROM listings L
 LEFT JOIN tags t ON L.jobid=t.jobid
 LEFT JOIN techs x ON t.techid=x.techid
-WHERE t.techid IN (" . implode(",",$_GET['tech']) . ")
-GROUP BY url";
+WHERE t.techid IN (" . implode(",",$search);
 
+#if (isset($_GET['required'])) $query .= ", " . implode(",",$_GET['required']);
+
+$query .=  ") GROUP BY url";
+
+
+echo $query;
 $data=mysql_query($query);
 
 $n = 0;
@@ -32,7 +41,7 @@ while ($info=mysql_fetch_array($data)) {
     $points = 0;
     $tags[$n] = "";
     while ($info1=mysql_fetch_array($data1)) {
-    	if(in_array($info1['techid'], $_GET['tech'])) {
+    	if(in_array($info1['techid'], $search)) {
     	    $points += 1;
 	    $tags[$n] .= "<strong>" . $info1['tech'] . "</strong> ";
     	}
@@ -52,9 +61,11 @@ for ($i = 0; $i < sizeof($score); $i++) {
     
     if (isset($_GET['required'])) {
 	foreach ($_GET['required'] as $requirement) {
+	    $query2 = "SELECT tech FROM techs WHERE techid='" . $requirement . "'";
+	    $info2 = mysql_fetch_array(mysql_query($query2));
 	    #this search needs to look for a full chiclet, not just the name.
 	    #we'll get stuck on false positives for "C"/"C++" or "C"/"Corsica" etc
-	    if (strpos($tags[$i], $requirement) === false) $print=false;
+	    if (strpos($tags[$i], $info2['tech']) === false) $print=false;
 	    #(has to use === because a "0" answer is also acceptable)
         }
     }
