@@ -42,7 +42,7 @@ while ($info=mysql_fetch_array($data)) {
 	}
 	else echo $info1['tech'] . " ";
     }
-    echo "<td><strong>" . $points . "</strong>\n";
+    echo "<td style='text-align: center;'><strong>" . $points . "</strong>\n";
 }
 
 ?>
