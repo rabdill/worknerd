@@ -1,4 +1,4 @@
-<a href="/"><h1>worknerd.com</h1></a>
+<h1><a href="/">worknerd.com</a></h1>
 <table border=1>
 <thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
 
@@ -13,7 +13,8 @@ $query = "SELECT L.jobid AS jobid, L.url AS url, L.company AS company, L.title A
 FROM listings L
 LEFT JOIN tags t ON L.jobid=t.jobid
 LEFT JOIN techs x ON t.techid=x.techid
-WHERE t.techid IN (" . implode(",",$_GET['tech']) . ") GROUP BY url";
+WHERE t.techid IN (" . implode(",",$_GET['tech']) . ")
+GROUP BY url";
 
 $data=mysql_query($query);
 
@@ -46,12 +47,26 @@ while ($info=mysql_fetch_array($data)) {
 array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary, $tags);
 
 for ($i = 0; $i < sizeof($score); $i++) {
-    echo "<tr><td>" . "<a href='" . $url[$i] . "'>";
-    if (strpos($url[$i], 'www.dice') >= 0 && strpos($url[$i], 'www.dice') !== false) echo "<img src='img/dice.jpg' height=10>";
-    elseif (strpos($url[$i], 'jobs.github') >= 0) echo "<img src='img/github.png' height=10>";
-    else echo "<img src='http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg'>";
+    #Check to make sure it has the required techs
+    $print=true;
+    
+    if (isset($_GET['required'])) {
+	foreach ($_GET['required'] as $requirement) {
+	    #this search needs to look for a full chiclet, not just the name.
+	    #we'll get stuck on false positives for "C"/"C++" or "C"/"Corsica" etc
+	    if (strpos($tags[$i], $requirement) === false) $print=false;
+	    #(has to use === because a "0" answer is also acceptable)
+        }
+    }
 
-    echo " " . $title[$i] . "</a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
+    if ($print) {
+        echo "<tr><td>" . "<a href='" . $url[$i] . "'>";
+        if (strpos($url[$i], 'www.dice') !== false) echo "<img src='img/dice.jpg' height=10>";
+        elseif (strpos($url[$i], 'jobs.github') >= 0) echo "<img src='img/github.png' height=10>";
+        else echo "<img src='http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg'>";
+
+        echo " " . $title[$i] . "</a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
+    }
 }
 
 

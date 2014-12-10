@@ -19,7 +19,8 @@ $data=mysql_query($query);
 while($info = mysql_fetch_array($data))
 {
 	echo "<label><input type='checkbox' name='tech[]' value='" . $info['techid'];
-	echo "'>" . $info['tech'] . "</label><br>";
+	echo "'>" . $info['tech'] . "</label>
+		<input type='checkbox' name='required[]' value='" . $info['tech'] . "'><br>";
 }
 ?>                                                                      
 
