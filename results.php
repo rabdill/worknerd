@@ -24,10 +24,9 @@ while ($info=mysql_fetch_array($data)) {
     $company[$n] = $info['company'];
     $salary[$n] = $info['salary'];
 
-    $query1="SELECT x.tech AS tech, x.techid AS techid FROM techs x
+    $query1="SELECT x.tech AS tech, t.techid AS techid FROM techs x
 	LEFT JOIN tags t ON x.techid=t.techid
 	WHERE t.jobid='" . $info['jobid'] . "';";
-    #echo $query1;
     $data1 = mysql_query($query1);
     $points = 0;
     $tags[$n] = "";
@@ -44,7 +43,7 @@ while ($info=mysql_fetch_array($data)) {
 
 
 
-array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary);
+array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary, $tags);
 
 for ($i = 0; $i < sizeof($score); $i++) {
     echo "<tr><td>" . "<a href='" . $url[$i] . "'>";
