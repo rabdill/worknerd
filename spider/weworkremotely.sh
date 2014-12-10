@@ -43,17 +43,40 @@ EOF`
 	    #read the job listing into a file
 	    curl -L ${urls[$i]} > temp.txt
 
-	    #scrape title****************this is where i left off************
-	    salaries[$i]=`cat temp.txt | grep baseSalary | sed 's/ *<span property="baseSalary" content="\([^"]*\)"><\/span>/\1/g'`
+	    #scrape title
+	    titles[$i]=`cat temp.txt | grep \<h1\> | sed 's/^[^>]*\?>\(.*\?\)<\/h1>.*$/\1/g'`
+	    
+	    #scrape company
+	    companies[$i]=`cat temp.txt | grep "<span class=\"company\">" | sed 's/^[^>]*\?>\(.*\?\)<\/span>.*$/\1/g'`
 
-	#escape the mysql special characters (and HTML)
-	urls[$i]=`echo ${urls[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
-	titles[$i]=`echo ${titles[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
-	salaries[$i]=`echo ${salaries[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt;/g' | sed 's/>/\&gt\;/g';`
-	descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
+	    #scrape description
+	    found=0
+	    while read line
+	    do
+	    	if [[ $found == 1 ]]; then
+	    		descriptions[$i]=$line
+	    		echo "description is |${descriptions[$i]}|"
+	    		break
+	    	else
+		    	if [[ `echo $line | grep -c "<div class=\"listing-container\">"` -gt 0 ]]
+		    	then
+	    	    	echo "Found the target div!"
+	   	    	    found=1
+		    	fi
+		    fi      
+	    done < "temp.txt"
 
-	SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-	INSERT INTO unprocessed (url, company, title, salary, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${salaries[$i]}', '${descriptions[$i]}')
+	    
+
+		#escape the mysql special characters (and HTML)
+		urls[$i]=`echo ${urls[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
+		companies[$i]=`echo ${companies[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
+		titles[$i]=`echo ${titles[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
+		descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g";`
+
+
+		SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
+		INSERT INTO unprocessed (url, company, title, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}')
 EOF`
 	fi	
 	i=$(( i+1 ))
