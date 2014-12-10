@@ -23,11 +23,11 @@ WHERE t.techid IN (" . implode(",",$search);
 
 $query .=  ") GROUP BY url";
 
-
-echo $query;
 $data=mysql_query($query);
 
+#For each row, search for the tags associated with that job
 $n = 0;
+$extraNum = 0;
 while ($info=mysql_fetch_array($data)) {
     $url[$n] = $info['url'];
     $title[$n] = $info['title'];
@@ -45,7 +45,14 @@ while ($info=mysql_fetch_array($data)) {
     	    $points += 1;
 	    $tags[$n] .= "<strong>" . $info1['tech'] . "</strong> ";
     	}
-	else $tags[$n] .= $info1['tech'] . " ";
+	else {
+	    $tags[$n] .= $info1['tech'] . " ";
+	    
+	    #We're keeping a list of techs that show up OUTSIDE of the search:
+	    $extraTechIds[$extraNum] = $info1['techid'];
+	    $extraTechNames[$extraNum] = $info1['tech'];
+	    $extraNum++;
+	}
     }
     $score[$n] = $points;
     $n++;
