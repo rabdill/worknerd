@@ -1,3 +1,9 @@
+<html>
+<head>
+    <link rel="stylesheet" href="css/foundation.css">
+    <script src="js/vendor/modernizr.js"></script>
+</head>
+<body>
 <h1><a href="/">worknerd.com</a></h1>
 <table border=1>
 <thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
@@ -93,3 +99,14 @@ for ($i = 0; $i < sizeof($score); $i++) {
 
 ?>
 </table>
+
+
+
+<script src="/js/vendor/jquery.js"></script>
+<script src="/js/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+</script>
+
+</body>
+</html>

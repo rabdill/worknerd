@@ -5,6 +5,11 @@ $data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkas
 $data=mysql_select_db("results"); ?>
 
 <html>
+<head>
+	<link rel="author" href="humans.txt" />
+    <link rel="stylesheet" href="css/foundation.css">
+    <script src="js/vendor/modernizr.js"></script>
+</head>
 <body>
 <h1>Work Nerd</h1>
 <h2>Tech job listing aggregation</h2>
@@ -24,5 +29,16 @@ while($info = mysql_fetch_array($data))
 }
 ?>                                                                      
 </form>
+
+
+
+
+
+<script src="/js/vendor/jquery.js"></script>
+<script src="/js/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+</script>
+
 </body>
 </html>

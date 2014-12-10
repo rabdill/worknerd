@@ -1,0 +1,12 @@
+/* TEAM */      
+Coded by: Rich Abdill 
+Site: http://richabdill.com
+Twitter: @blabdill
+Location: Northern Virginia
+
+/* FRAMEWORKS */
+Front-end: Foundation
+
+/* TIMELINE */
+5 Dec 2014: First commit.
+9 Dec 2014: Two spiders are complete, and the basic point-based tech search is functional.
