@@ -4,7 +4,7 @@ source /var/www/html/worknerd/dbcredentials.sh
 
 query=$1
 zip=$2
-for page_num in $(seq 2 6 7)
+for page_num in 2 6 7
 do
 	curl "https://weworkremotely.com/categories/${page_num}/jobs" > listings.txt
 	echo "https://weworkremotely.com/categories/${page_num}/jobs"
