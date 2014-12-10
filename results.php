@@ -72,8 +72,11 @@ for ($i = 0; $i < sizeof($score); $i++) {
 
     if ($print) {
         echo "<tr><td>" . "<a href='" . $url[$i] . "'>";
+
+        #print logo of source
         if (strpos($url[$i], 'www.dice') !== false) echo "<img src='img/dice.jpg' height=10>";
         elseif (strpos($url[$i], 'jobs.github') >= 0) echo "<img src='img/github.png' height=10>";
+        elseif (strpos($url[$i], 'weworkremotely.com') >= 0) echo "<img src='img/weworkremotely.jpg' height=10>";
         else echo "<img src='http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg'>";
 
         echo " " . $title[$i] . "</a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
