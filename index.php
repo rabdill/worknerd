@@ -12,15 +12,14 @@ $data=mysql_select_db("results"); ?>
     <link rel="stylesheet" href="css/worknerd.css">
 </head>
 <body>
-<h1>Work Nerd</h1>
-<h2>Tech job listing aggregation</h2>
-<h3>Select the techs you are qualified to work with:</h3>
-<form action="results.php" method="GET">
-    <div class="row">
-	<div class="small-6 columns centered-column">
-	    <input type="submit" value="submit">
-	</div>
-    </div>
+<div style="position: sticky;">
+    <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
+    <h3>Select the techs you are qualified to work with:</h3>
+    <form action="results.php" method="GET">
+        <div class="row" style="margin-left: 1%;">
+	        <input type="submit" value="submit" style="position: fixed;">
+        </div>
+</div>
 <?php
 
 $query = "SELECT * FROM techs;";
@@ -31,7 +30,7 @@ $data=mysql_query($query);
 while($info = mysql_fetch_array($data))
 {
 	echo "<div class=\"row\">
-		<div class=\"small-6 columns centered-column\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $info['techid'];
+		<div class=\"small-6 columns\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $info['techid'];
 	echo "'>" . $info['tech'] . "</label>
 		<input type='checkbox' name='required[]' value='" . $info['techid'] . "'></div></div>";
 }
