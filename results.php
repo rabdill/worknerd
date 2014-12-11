@@ -2,6 +2,18 @@
 <head>
     <link rel="stylesheet" href="css/foundation.css">
     <script src="js/vendor/modernizr.js"></script>
+
+    <style>
+	.sourceLogo {
+	    height: 20px;
+	}
+	table tr td {
+	    font-size: 1.5em;
+	    line-height: 1.5em!important;
+	}
+    </style>
+
+
 </head>
 <body>
 <h1><a href="/">worknerd.com</a></h1>
@@ -84,15 +96,16 @@ for ($i = 0; $i < sizeof($score); $i++) {
     }
 
     if ($print) {
-        echo "<tr><td>" . "<a href='" . $url[$i] . "'>";
-
+        echo "<tr><td>" . "<a href='" . $url[$i] . "'>" . $title[$i] . " ";
+	echo "<img class='sourceLogo' src='";
         #print logo of source
-        if (strpos($url[$i], 'www.dice') !== false) echo "<img src='img/dice.jpg' height=10>";
-        elseif (strpos($url[$i], 'jobs.github') !== false) echo "<img src='img/github.png' height=10>";
-        elseif (strpos($url[$i], 'weworkremotely.com') !== false) echo "<img src='img/weworkremotely.jpg' height=10>";
-        else echo "<img src='http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg'>";
+        if (strpos($url[$i], 'www.dice') !== false) echo "img/dice.jpg";
+        elseif (strpos($url[$i], 'jobs.github') !== false) echo "img/github.png";
+        elseif (strpos($url[$i], 'weworkremotely.com') !== false) echo "img/weworkremotely.jpg>";
+        else echo "http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg";
 
-        echo " " . $title[$i] . "</a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
+
+    echo "'></a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
     }
 }
 
