@@ -1,0 +1,24 @@
+.sourceLogo {
+    height: 20px;
+}
+
+//Because Foundation makes table text too small
+table tr td {
+    font-size: 1.5em;
+    line-height: 1.5em!important;
+}
+
+//to keep a second checkbox for a tech from being
+//put onto a second line:
+.techs {
+    display: inline;
+    font-size: 2em;
+}
+
+input[type="checkbox"] {
+    margin: 20px;
+}
+
+.centered-column {
+    text-align: center;
+}

@@ -9,19 +9,7 @@ $data=mysql_select_db("results"); ?>
 	<link rel="author" href="humans.txt" />
     <link rel="stylesheet" href="css/foundation.css">
     <script src="js/vendor/modernizr.js"></script>
-
-    <style>
-	.techs {
-	    display: inline;
-	    font-size: 2em;
-	}
-	input[type="checkbox"] {
-	    margin: 20px;
-	}
-	.centered-column {
-	    text-align: center;
-	}
-    </style>
+    <link rel="stylesheet" href="css/worknerd.css">
 </head>
 <body>
 <h1>Work Nerd</h1>

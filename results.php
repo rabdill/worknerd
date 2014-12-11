@@ -2,29 +2,7 @@
 <head>
     <link rel="stylesheet" href="css/foundation.css">
     <script src="js/vendor/modernizr.js"></script>
-
-    <style>
-	.sourceLogo {
-	    height: 20px;
-	}
-	table tr td {
-	    font-size: 1.5em;
-	    line-height: 1.5em!important;
-	}
-	.techs {
-            display: inline;
-            font-size: 2em;
-        }
-        input[type="checkbox"] {
-            margin: 20px;
-        }
-        .centered-column {
-            text-align: center;
-        }
-
-    </style>
-
-
+    <link rel="stylesheet" href="css/worknerd.css">
 </head>
 <body>
 <h1><a href="/">worknerd.com</a></h1>
