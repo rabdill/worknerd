@@ -61,10 +61,10 @@ while ($info=mysql_fetch_array($data)) {
     while ($info1=mysql_fetch_array($data1)) {
     	if(in_array($info1['techid'], $search)) {
     	    $points += 1;
-	    $tags[$n] .= "<strong>" . $info1['tech'] . "</strong> ";
+	    $tags[$n] .= "<span class=\"round success label\">" . $info1['tech'] . "</span> ";
     	}
 	else {
-	    $tags[$n] .= $info1['tech'] . " ";
+	    $tags[$n] .= "<span class=\"round secondary label\">" . $info1['tech'] . "</span>";
 	    
 	    #We're keeping a list of techs that show up OUTSIDE of the search:
 	    $extraTechIds[$extraNum] = $info1['techid'];
@@ -101,7 +101,7 @@ for ($i = 0; $i < sizeof($score); $i++) {
         #print logo of source
         if (strpos($url[$i], 'www.dice') !== false) echo "img/dice.jpg";
         elseif (strpos($url[$i], 'jobs.github') !== false) echo "img/github.png";
-        elseif (strpos($url[$i], 'weworkremotely.com') !== false) echo "img/weworkremotely.jpg>";
+        elseif (strpos($url[$i], 'weworkremotely.com') !== false) echo "img/weworkremotely.jpg";
         else echo "http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg";
 
 
