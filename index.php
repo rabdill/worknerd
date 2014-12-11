@@ -14,7 +14,8 @@ $data=mysql_select_db("results"); ?>
 <body>
 <div style="position: sticky;">
     <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
-    <h3>Select the techs you are qualified to work with:</h3>
+    <p>Select the techs you are qualified to work with.
+    <p>(Left checkbox: Include in search. Right checkbox: <em>Require</em> in search.)
     <form action="results.php" method="GET">
         <div class="row" style="margin-left: 1%;">
 	        <input type="submit" value="submit" style="position: fixed;">
