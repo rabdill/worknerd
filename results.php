@@ -1,13 +1,12 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/foundation.css">
-    <script src="js/vendor/modernizr.js"></script>
     <link rel="stylesheet" href="css/worknerd.css">
+    <script src="js/vendor/modernizr.js"></script>
 </head>
 <body>
 <h1><a href="/">worknerd.com</a></h1>
 
-<a href="#" data-reveal-id="refineSearch">Refine your search</a>
 
 <table border=1>
 <thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
@@ -19,10 +18,28 @@ date_default_timezone_set ('America/New_York');
 $data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkasLDJA7a&Aj");
 $data=mysql_select_db("results");
 
-#make sure nobody screws up by checking the "required" box but not the "search" box:
-if (isset($_GET['required'])) $search = array_unique(array_merge($_GET['tech'], $_GET['required']));
-else $search = $_GET['tech'];
+if (isset($_GET['tech']) === false) {
+    if(isset($_GET['required']) === false) {
+        echo "ERROR: You did not submit search terms.";
+        $search[] = "";
+    }
+    else {
+        $search = $_GET['required'];
+        #We only want to print the "refine" stuff if there's a search to refine: 
+       echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+    }
+}
+else {
+    if (isset($_GET['required'])) {
+        $search = array_merge(array_flip(array_flip(array_merge($_GET['tech'], $_GET['required']))));
+        echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+    }
 
+    else {
+        $search = $_GET['tech'];
+        echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+    }
+}
 $query = "SELECT L.jobid AS jobid, L.url AS url, L.company AS company, L.title AS title, L.salary as salary, x.tech as tech
 FROM listings L
 LEFT JOIN tags t ON L.jobid=t.jobid
@@ -118,20 +135,34 @@ for ($i = 0; $i < sizeof($score); $i++) {
 <div id="refineSearch" class="reveal-modal" data-reveal>
   <h2>Get better results</h2>
   <p class="lead">Below are the technologies that appeared alongside your search terms most frequently. Consider adding some to your search:</p>
-  
-  <?php
+    <form action="results.php" method="GET">
+    <div class="row">
+        <div class="small-6 columns centered-column">
+            <input type="submit" value="submit">
+        </div>
+    </div>
+
+    <?php
     $i = 0;
     
    while($i < sizeof($extraTechIds))
   {
-      echo "<p><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $extraTechIds[$i];
-      echo "'>" . $extraTechNames[$i] . "</label>
-         <input type='checkbox' name='required[]' value='" . $extraTechIds[$i] . "'></p>";
+    echo "<div class=\"row\">
+        <div class=\"small-6 columns centered-column\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $extraTechIds[$i] . "'>" . $extraTechNames[$i] . "</label>
+         <input type='checkbox' name='required[]' value='" . $extraTechIds[$i] . "'></div></div>";
       $i++;
 	
 }
+  
+    #attach the already-included search terms to the new form
+    $i = 0;
+    while($i < sizeof($search))
+    {
+        echo "<input type='hidden' name='tech[]' value='" . $search[$i] . "'>\n";
+        $i++; 
+    } 
 ?>
- 
+    </form>
 
   <a class="close-reveal-modal">&#215;</a>
 </div>
