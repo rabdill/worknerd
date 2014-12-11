@@ -11,12 +11,26 @@
 	    font-size: 1.5em;
 	    line-height: 1.5em!important;
 	}
+	.techs {
+            display: inline;
+            font-size: 2em;
+        }
+        input[type="checkbox"] {
+            margin: 20px;
+        }
+        .centered-column {
+            text-align: center;
+        }
+
     </style>
 
 
 </head>
 <body>
 <h1><a href="/">worknerd.com</a></h1>
+
+<a href="#" data-reveal-id="refineSearch">Refine your search</a>
+
 <table border=1>
 <thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
 
@@ -76,7 +90,12 @@ while ($info=mysql_fetch_array($data)) {
     $n++;
 }
 
-
+#trim the repeats out of the arrays. it uses this bizarre routine
+#because using array_unique leaves gaps in the arrays where it removes values.
+$extraTechIds = array_merge(array_flip(array_flip($extraTechIds))); 
+$extraTechNames = array_merge(array_flip(array_flip($extraTechNames)));
+#Put em in alphabetical order:
+array_multisort($extraTechNames, SORT_ASC, $extraTechIds);
 
 array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary, $tags);
 
@@ -114,6 +133,30 @@ for ($i = 0; $i < sizeof($score); $i++) {
 </table>
 
 
+
+
+
+<!-- modal for refining search terms -->
+<div id="refineSearch" class="reveal-modal" data-reveal>
+  <h2>Get better results</h2>
+  <p class="lead">Below are the technologies that appeared alongside your search terms most frequently. Consider adding some to your search:</p>
+  
+  <?php
+    $i = 0;
+    
+   while($i < sizeof($extraTechIds))
+  {
+      echo "<p><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $extraTechIds[$i];
+      echo "'>" . $extraTechNames[$i] . "</label>
+         <input type='checkbox' name='required[]' value='" . $extraTechIds[$i] . "'></p>";
+      $i++;
+	
+}
+?>
+ 
+
+  <a class="close-reveal-modal">&#215;</a>
+</div>
 
 <script src="/js/vendor/jquery.js"></script>
 <script src="/js/foundation.min.js"></script>
