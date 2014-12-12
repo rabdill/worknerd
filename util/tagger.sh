@@ -19,7 +19,7 @@ EOF`
     echo "TechId is |$techid|"
 
     echo "`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-SELECT jobid FROM unprocessed WHERE description LIKE "%$tech_name%";
+SELECT jobid FROM unprocessed WHERE description REGEXP "[^a-zA-Z]$tech_name[^a-zA-Z]";
 EOF`" > to-tag.txt
 
     #tag all the jobs:
