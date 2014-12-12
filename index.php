@@ -12,7 +12,7 @@ $data=mysql_select_db("results"); ?>
     <link rel="stylesheet" href="css/worknerd.css">
 </head>
 <body>
-<div style="position: sticky;">
+<div style="position: fixed; background-color: #ffffff; margin-top: -10px; padding-top: 10px; z-index: 1;">
     <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
     <p>Select the techs you are qualified to work with.
     <p>(Left checkbox: Include in search. Right checkbox: <em>Require</em> in search.)
@@ -20,6 +20,13 @@ $data=mysql_select_db("results"); ?>
         <div class="row" style="margin-left: 1%;">
 	        <input type="submit" value="submit" style="position: fixed;">
         </div>
+</div>
+<div style="margin-top: -10px; padding-top: 10px; z-index: 0;"><!-- this appears twice so that
+    the space between the top of the page and the first list entry is always equal to however much
+    space the header would take up. -->
+    <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
+    <p>Select the techs you are qualified to work with.
+    <p>(Left checkbox: Include in search. Right checkbox: <em>Require</em> in search.)
 </div>
 <?php
 
