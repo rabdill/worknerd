@@ -45,7 +45,7 @@ EOF`
 	    curl -L ${urls[$i]} > temp.txt
 
 	    #grab the title
-		titles[$i]=`cat temp.txt | grep "<title>" | sed 's/\s*<\/*title>//g'`
+		titles[$i]=`cat temp.txt | grep "<title>" | sed 's/\s*<\/*title>//g' | sed 's/\(.*\) in US-.\+$/\1/'`
 		echo "TITLE IS |${titles[$i]}|";
 
 	    #get company
