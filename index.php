@@ -12,22 +12,28 @@ $data=mysql_select_db("results"); ?>
     <link rel="stylesheet" href="css/worknerd.css">
 </head>
 <body>
-<div style="position: fixed; background-color: #ffffff; margin-top: -10px; padding-top: 10px; z-index: 1;">
-    <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
-    <p>Select the techs you are qualified to work with.
-    <p>(Left checkbox: Include in search. Right checkbox: <em>Require</em> in search.)
-    <form action="results.php" method="GET">
-        <div class="row" style="margin-left: 1%;">
-	        <input type="submit" value="submit" style="position: fixed;">
-        </div>
-</div>
-<div style="margin-top: -10px; padding-top: 10px; z-index: 0;"><!-- this appears twice so that
-    the space between the top of the page and the first list entry is always equal to however much
-    space the header would take up. -->
+<div class="row">
+<div class="medium-6 columns">
     <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
     <p>Select the techs you are qualified to work with.
     <p>(Left checkbox: Include in search. Right checkbox: <em>Require</em> in search.)
 </div>
+
+<div class="medium-6 columns">
+   <?php
+    $query = "SELECT COUNT(jobid) AS inventory FROM listings";
+    $info = mysql_fetch_array(mysql_query($query));
+    echo "<h2>With " . $info['inventory'] . " listings covering ";
+    $query = "SELECT COUNT(techid) AS tinventory FROM techs";
+    $info = mysql_fetch_array(mysql_query($query));
+    echo $info['tinventory'] . " technologies!</h2>";
+    ?>
+</div>
+</div>
+<form action="results.php" method="GET">
+   <div class="row">
+      <input type="submit" value="submit" style="position: fixed;">
+     
 <?php
 
 $query = "SELECT * FROM techs;";
@@ -37,7 +43,7 @@ $data=mysql_query($query);
 <?php
 while($info = mysql_fetch_array($data))
 {
-	echo "<div class=\"row\">
+	echo "<div class=\"row\" style=\"margin-left: 70px;\">
 		<div class=\"small-6 columns\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $info['techid'];
 	echo "'>" . $info['tech'] . "</label>
 		<input type='checkbox' name='required[]' value='" . $info['techid'] . "'></div></div>";
