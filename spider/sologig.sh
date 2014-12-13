@@ -77,7 +77,7 @@ EOF`
 	    while read line
 	    do
 	    	if [[ $saving -eq 1 ]]; then
-	    		if [[ `echo $line | grep -c "<div id"` -eq 0 ]]; then
+	    		if [[ `echo $line | grep -c "<div id"` -eq 0 && `echo $line | grep -c "<div class=\"h2\">Company Overview"` -eq 0 ]]; then
 			    	echo $line >> "description.txt"
 			    	echo "Just wrote |$line| to file:"
 			    else
@@ -85,7 +85,7 @@ EOF`
 		    		echo "Not interesting: |$line|"
 	    		fi
     		fi
-	    	if [[ `echo $line | grep -c "<div id=\"description-container-standard\">"` -eq 1 || `echo $line | grep -c "jobs-detail-job"` -eq 1 ]]; then
+	    	if [[ `echo $line | grep -c "<div id=\"description-container-standard\">"` -eq 1 || `echo $line | grep -c "jobs-detail-job"` -eq 1 || `echo $line | grep -c "<p class=\"h2\">Job Description"` -eq 1 ]]; then
 	    		saving=1
 	    		echo "TIME TO GO!"
     		fi
