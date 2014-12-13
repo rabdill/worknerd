@@ -8,7 +8,7 @@
 <h1><a href="/">worknerd.com</a></h1>
 
 
-<table border=1>
+<table>
 <thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
 
 
