@@ -1,3 +1,5 @@
 *.txt
 !humans.txt
 !robots.txt
+
+data.php

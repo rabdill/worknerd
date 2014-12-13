@@ -1,20 +1,12 @@
 <?php
-//Connect to DB:
-date_default_timezone_set ('America/New_York');
-$data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkasLDJA7a&Aj");
-$data=mysql_select_db("results"); ?>
-
-<html>
-<head>
-	<link rel="author" href="humans.txt" />
-    <link rel="stylesheet" href="css/foundation.css">
-    <script src="js/vendor/modernizr.js"></script>
-    <link rel="stylesheet" href="css/worknerd.css">
+    include 'data.php'; 
+    include 'head.php';
+?>
+    <title>Tech job listings, IT careers | Work Nerd</title>
 </head>
 <body>
-<div class="row">
-<div class="medium-6 columns">
-    <h1>Work Nerd <small>Tech job listing aggregation</small></h1>
+<?php include 'navbar.php'; ?>
+
     <p>Select the techs you are qualified to work with.
     <p>(Left checkbox: Include in search. Right checkbox: <em>Require</em> in search.)
 </div>

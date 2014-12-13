@@ -20,3 +20,20 @@ input[type="checkbox"] {
 .centered-column {
     text-align: center;
 }
+
+.top-bar .name h1 {
+    font-size: 3.3em;
+    font-family: 'Walter Turncoat', cursive;
+    margin-top: 8px;
+}
+
+.top-bar {
+    height: 65px;
+}
+
+.subtitle {
+    font-family: Arial;
+    margin-left: 20px;
+    color: #ffffff;
+    size: 1.2em;
+}
