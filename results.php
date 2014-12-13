@@ -116,6 +116,7 @@ for ($i = 0; $i < sizeof($score); $i++) {
         if (strpos($url[$i], 'www.dice') !== false) echo "img/dice.jpg";
         elseif (strpos($url[$i], 'jobs.github') !== false) echo "img/github.png";
         elseif (strpos($url[$i], 'weworkremotely.com') !== false) echo "img/weworkremotely.jpg";
+	elseif (strpos($url[$i], 'sologig.com') !== false) echo "img/sologig.png";
         else echo "http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg";
 
 
