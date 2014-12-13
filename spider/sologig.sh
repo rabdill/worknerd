@@ -55,36 +55,43 @@ EOF`
 	        if [[ $lookahead -eq 0 ]]; then
     	    	    companies[$i]="$line"
     	    	    echo "Company is now |${companies[$i]}|"
-    	    	    lookahead=-1
+    	    	    break
 	    	else
     	            lookahead=$(( lookahead-1 ))
 	    	fi
 
-	    	if [[ `echo $line | grep -c "<div class=\"module logo\">"` -gt 0 ]]
+	    	if [[ `echo $line | grep -c "<div class=\"header-byline\">"` -gt 0 || `echo $line | grep -c "zhdr1\""` -gt 0 ]]
 	    	then
     	    	    echo "Found the target div!"
-   	    	    lookahead=2
+   	    	    lookahead=1
+                else
+                    if [[ `echo $line | grep -c "Click Here to Navigate To the Company Web Site"` -gt 0 ]]; then
+                        companies[$i]=`echo $line | sed 's/^.*>\(.*\)<\/a>.*$/\1/'`
+                        break
+                    fi
 	    	fi      
 	    done < "temp.txt"
-	    #get description
-		saving=0
-		while read line
-		do
-			if [[ $saving -eq 1 ]]; then
-				if [[ `echo $line | grep -c "<!-- /.column.main -->"` -eq 0 ]]; then
-					echo $line >> "description.txt"
-					echo "Just wrote |$line| to file:"
-				else
-					saving=0
-					echo "Not interesting: |$line|"
-				fi
-			fi
-			if [[ `echo $line | grep -c "<div id=\"description-container-standard\">"` -eq 1 ]]; then
-				saving=1
-				echo "TIME TO GO!"
-			fi
-		done < "temp.txt"
-
+	    
+            #get description
+	    saving=0
+	    while read line
+	    do
+	    	if [[ $saving -eq 1 ]]; then
+	    		if [[ `echo $line | grep -c "<div id"` -eq 0 ]]; then
+			    	echo $line >> "description.txt"
+			    	echo "Just wrote |$line| to file:"
+			    else
+			    	saving=0
+		    		echo "Not interesting: |$line|"
+	    		fi
+    		fi
+	    	if [[ `echo $line | grep -c "<div id=\"description-container-standard\">"` -eq 1 || `echo $line | grep -c "jobs-detail-job"` -eq 1 ]]; then
+	    		saving=1
+	    		echo "TIME TO GO!"
+    		fi
+            done < "temp.txt"
+            descriptions[$i]=`cat description.txt`
+            rm description.txt
 
 
 	

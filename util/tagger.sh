@@ -2,6 +2,9 @@
 
 source /var/www/html/worknerd/dbcredentials.sh
 
+mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
+DELETE FROM unprocessed WHERE description="" OR company="";
+
 echo "`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 SELECT tech FROM techs
 EOF`" > techs.txt
@@ -20,7 +23,7 @@ EOF`
 
     echo "`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 SELECT jobid FROM unprocessed WHERE description REGEXP "[^a-zA-Z]$tech_name[^a-zA-Z]";
-EOF`" > to-tag.txt
+EOF`" > to-tag.txt #mysql regex is case-insensitive out of the box
 
     #tag all the jobs:
     while read listingid
