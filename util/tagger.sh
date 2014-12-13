@@ -2,8 +2,21 @@
 
 source /var/www/html/worknerd/dbcredentials.sh
 
+qty=`mysql -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
+SELECT COUNT(jobid) FROM unprocessed;
+EOF`
+
+echo "Starting with $qty listings."
+
+bad=`mysql -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
+SELECT COUNT(jobid) FROM unprocessed WHERE description="" OR company="";
+EOF`
+
+echo "Deleting $bad listings because of missing data."
+
 mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 DELETE FROM unprocessed WHERE description="" OR company="";
+EOF
 
 echo "`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 SELECT tech FROM techs
@@ -50,7 +63,6 @@ EOF`
     salary=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
     SELECT salary FROM unprocessed WHERE jobid="$to_move"
 EOF`
-    echo "Moving job from company $company"
 
     mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
     INSERT INTO listings VALUES ('$to_move', '$url', '$company', '$title', '$salary');
