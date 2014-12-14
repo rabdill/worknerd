@@ -12,7 +12,7 @@
     </div>
     <div class="collapse navbar-collapse" id="right-menu">
     <ul class="nav navbar-nav navbar-right">
-      <!--  <li><a href="/about.php">About</a> -->
+        <li style="color: #FFFF00; margin: 25px 25px 0 0;">Welcome alpha testers!
     </ul>
   </div><!-- /.container-fluid -->
 </nav>
