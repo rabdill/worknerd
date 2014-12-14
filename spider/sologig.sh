@@ -86,10 +86,10 @@ EOF`
             if [[ $saving -eq 1 ]]; then
                     if [[ `echo $line | grep -c "<div id"` -eq 0 && `echo $line | grep -c "<div class=\"h2\">Company Overview"` -eq 0 && `echo $line | grep -c "<table width"` -eq 0 ]]; then
                             echo $line >> "description.txt"
-                            echo "Just wrote |$line| to file:"
+                            #echo "Just wrote |$line| to file:"
                         else
                             saving=0
-                            echo "Not interesting: |$line|"
+                            #echo "Not interesting: |$line|"
                     fi
             fi
             if [[ `echo $line | grep -c "<div id=\"description-container-"` -eq 1 || `echo $line | grep -c "jobs-detail-job"` -eq 1 || `echo $line | grep -c "<p class=\"h.*2*\">Job Description"` -eq 1 ]]; then
