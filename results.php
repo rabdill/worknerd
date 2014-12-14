@@ -28,11 +28,6 @@
 
 
 <?php	
-//Connect to DB:
-date_default_timezone_set ('America/New_York');
-$data=mysql_connect("job.czxcq0gunx4h.us-east-1.rds.amazonaws.com","aws","8!dkasLDJA7a&Aj");
-$data=mysql_select_db("results");
-
 if (isset($_GET['tech']) === false) {
     if(isset($_GET['required']) === false) {
         echo "ERROR: You did not submit search terms.";
