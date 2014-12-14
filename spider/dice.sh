@@ -3,16 +3,30 @@
 source /var/www/html/worknerd/dbcredentials.sh
 
 query=$1
-zip=$2
+max=$2
+zip=$3
+
+if [[ -z $max ]]; then
+    echo "WARN: No maximum crawl number provided. Defaulting to 500."
+    max=500
+fi
+
 
 #Count how many results there are
 results=`curl -G -v http://www.dice.com/job/results/${zip} -d caller=basic -d q=${query} -d x=all -d p=z -d n=50 | grep "Search results" | sed 's/^.*of \([0-9]\+\)<\/h2>/\1/'`
 
-echo "STARTING: $results RESULTS TO PARSE"
+echo "$results RESULTS TO PARSE"
+
+if [[ $results -gt $max ]]; then
+    echo "WARN: Potential results exceeds max crawl number. Reducing target down to ${max}."
+    results=$max
+fi
+
 offset=0
 
 while [[ $offset -lt $results ]]
 do
+    echo "OFFSET IS |$offset|. RESULTS IS |$results|."
     curl -G 'http://www.dice.com/job/results/${zip}' -d caller=basic -d q=${query} -d x=all -d p=z -d n=50 -d o=$offset  > listings.txt
     #Strip out everything but the links to the job listings
     cat listings.txt | grep "\<a href=\"/job/result/" > listings2.txt
