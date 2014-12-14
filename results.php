@@ -20,13 +20,22 @@
 </head>
 <body>
 
+<!-- required to turn on the tooltips:  -->
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
 <?php
     include 'google-analytics.php';
     include 'navbar.php'; ?>
 
 <div class="container" style="padding-top: 20px;">
 <table class="table table-striped table-hover">
-<thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
+<thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<span class="label label-primary" data-toggle="tooltip" data-placement="top" title="The score is based on how many search terms are matched by the listing's tags." style="font-size: 1.2em; font-weight: bold;">?</span><tbody>
+
+
 
 
 <?php	
@@ -83,8 +92,8 @@ while ($info=mysql_fetch_array($data)) {
     	if(in_array($info1['techid'], $search)) {
     	    $points += 1;
 	    $tags[$n] .= "<span class=\"label label-success\">" . $info1['tech'] . "</span> ";
-    	}
-	else {
+    }
+    else {
 	    $tags[$n] .= "<span class=\"label label-default\">" . $info1['tech'] . "</span> ";
 	    
 	    #We're keeping a list of techs that show up OUTSIDE of the search:
