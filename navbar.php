@@ -12,7 +12,7 @@
     </div>
     <div class="collapse navbar-collapse" id="right-menu">
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="/about.php">About</a>
+      <!--  <li><a href="/about.php">About</a> -->
     </ul>
   </div><!-- /.container-fluid -->
 </nav>
