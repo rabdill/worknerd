@@ -41,18 +41,18 @@ if (isset($_GET['tech']) === false) {
     else {
         $search = $_GET['required'];
         #We only want to print the "refine" stuff if there's a search to refine: 
-       echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+       echo "<a href=\"#\" data-toggle=\"modal\" data-target=\"#refine\">Refine your search</a>";
     }
 }
 else {
     if (isset($_GET['required'])) {
         $search = array_merge(array_flip(array_flip(array_merge($_GET['tech'], $_GET['required']))));
-       # echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+        echo "<a href=\"#\" data-toggle=\"modal\" data-target=\"#refine\">Refine your search</a>";
     }
 
     else {
         $search = $_GET['tech'];
-        echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+        echo "<a href=\"#\" data-toggle=\"modal\" data-target=\"#refine\">Refine your search</a>";
     }
 }
 $query = "SELECT L.jobid AS jobid, L.url AS url, L.company AS company, L.title AS title, L.salary as salary, x.tech as tech
@@ -147,42 +147,56 @@ for ($i = 0; $i < sizeof($score); $i++) {
 
 
 
-<!-- modal for refining search terms
-<div id="refineSearch" class="reveal-modal" data-reveal>
-  <h2>Get better results</h2>
-  <p class="lead">Below are the technologies that appeared alongside your search terms most frequently. Consider adding some to your search:</p>
-    <form action="results.php" method="GET">
-    <div class="row">
-        <div class="small-6 columns centered-column">
-            <input type="submit" value="submit">
-        </div>
+<div class="modal fade" id="refine"  tabindex="-1" role="dialog" aria-labelledby="refineLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Improving result score accuracy</h4>
+      </div>
+      <div class="modal-body">
+        <p class="lead">Below are the technologies that appeared alongside your search terms most frequently. Consider adding some to your search:</p>
+        <form action="results.php" method="GET">
+            <?php
+            $i = 0;
+            
+            echo "<div style=\"height: 250px; overflow-y: scroll; overflow-x: hidden;\">";
+            while($i < sizeof($extraTechIds))
+            {
+                
+                echo "<div class=\"row panel panel-default\">
+                      <div class=\"col-sm-6\">" . $extraTechNames[$i] . "</div>";
+                echo "<div class=\"col-sm-6\">
+                          <div class=\"btn-group\" data-toggle=\"buttons\">
+                          <label class=\"btn btn-include\">";
+                echo "<input type='checkbox' name='tech[]' value='" . $extraTechIds[$i] . "'>Include
+                           </label>
+                           <label class=\"btn btn-require\">
+                           <input type='checkbox' name='required[]' value='" . $extraTechIds[$i] . "'>Require
+                            </label></div>
+                            </div></div>";
+                $i++;
+              } 
+            #attach the already-included search terms to the new form
+            $i = 0;
+            while($i < sizeof($search))
+            {
+                echo "<input type='hidden' name='tech[]' value='" . $search[$i] . "'>\n";
+                $i++; 
+            } 
+            ?>
+            </div><!-- the scrolling div -->
+            <input type="submit" value="Search" class="btn btn-primary btn-lg">
+        </form>
     </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-    <?php
-    $i = 0;
-    
-   while($i < sizeof($extraTechIds))
-  {
-    echo "<div class=\"row\">
-        <div class=\"small-6 columns centered-column\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $extraTechIds[$i] . "'>" . $extraTechNames[$i] . "</label>
-         <input type='checkbox' name='required[]' value='" . $extraTechIds[$i] . "'></div></div>";
-      $i++;
-	
-}
-  
-    #attach the already-included search terms to the new form
-    $i = 0;
-    while($i < sizeof($search))
-    {
-        echo "<input type='hidden' name='tech[]' value='" . $search[$i] . "'>\n";
-        $i++; 
-    } 
-?>
-    </form>
 
-  <a class="close-reveal-modal">&#215;</a>
-</div>
--->
 
 </body>
 </html>

@@ -12,9 +12,11 @@
 #searchbox {
     padding: 0;
 }
-
-
 </style>
+<script>
+$('.btn').button();
+</script>
+
 
 </head>
 <body>
@@ -60,7 +62,7 @@
                     <h2 class="panel-title">Search</h2>
                 </div>
                 <div class="panel-body nopadding">
-                    <form action="results.php" method="GET" class="panel-body nopadding"> 
+                    <form action="results.php" method="GET" class="panel-body nopadding" style="margin-bottom: 0px;"> 
                         <?php
                         $query = "SELECT * FROM techs;";
                         $data=mysql_query($query);?>
@@ -72,11 +74,11 @@
                             <div class=\"col-sm-6\">" . $info['tech'] . "</div>";
                         echo "<div class=\"col-sm-6\">
                                 <div class=\"btn-group\" data-toggle=\"buttons\">
-                                <label class=\"btn btn-primary\">";
-                        echo "<input type='checkbox' name='tech[]' value='" . $info['techid'] . "' autocomplete=\"off\">Include
-                             <label class=\"btn btn-primary\">
-                                <input type='checkbox' name='required[]' value='" . $info['techid'] . "' autocomplete=\"off\">Require
+                                <label class=\"btn btn-include\">";
+                        echo "<input type='checkbox' name='tech[]' value='" . $info['techid'] . "'>Include
                                 </label>
+                             <label class=\"btn btn-require\">
+                                <input type='checkbox' name='required[]' value='" . $info['techid'] . "'>Require
                                 </label></div>
                             </div></div>";
                     }
