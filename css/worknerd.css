@@ -1,3 +1,30 @@
+body {
+    font-size: 20px;
+    padding-top: 80px;
+}
+
+.navbar {
+    background-color: #333333;
+}
+.navbar-header h1 a {
+    font-size: 1.5em;
+    font-family: 'Walter Turncoat', cursive;
+    margin-top: 8px;
+    color: #fff;
+}
+
+.navbar-header small {
+    font-family: 'Walter Turncoat', cursive;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+
+
+
 .sourceLogo {
     height: 20px;
 }
@@ -31,9 +58,8 @@ input[type="checkbox"] {
     height: 65px;
 }
 
-.subtitle {
-    font-family: Arial;
-    margin-left: 20px;
-    color: #ffffff;
-    size: 1.2em;
+h2 {
+    #font-family: 'Special Elite', cursive;
+#    font-family: 'Walter Turncoat', cursive;
+
 }
