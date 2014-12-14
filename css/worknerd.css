@@ -27,6 +27,15 @@ body {
     font-family: 'Walter Turncoat', cursive;
 }
 
+.navbar-default .navbar-nav > li > a {
+    color: #fff; 
+    margin-top: 20px;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: #DBDBDB;
+}
+
 a:hover {
     text-decoration: none;
 }

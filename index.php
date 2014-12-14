@@ -71,8 +71,8 @@ $('.btn').button();
                      while($info = mysql_fetch_array($data))
                      {
                         echo "<div class=\"row panel panel-default\">
-                            <div class=\"col-xs-6\">" . $info['tech'] . "</div>";
-                        echo "<div class=\"col-xs-6\">
+                            <div class=\"col-sm-4 col-xs-6\">" . $info['tech'] . "</div>";
+                        echo "<div class=\"col-sm-8 col-xs-6\">
                                 <div class=\"btn-group\" data-toggle=\"buttons\">
                                 <label class=\"btn btn-include\">";
                         echo "<input type='checkbox' name='tech[]' value='" . $info['techid'] . "'>Include
