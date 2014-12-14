@@ -12,7 +12,7 @@
     </div>
     <div class="collapse navbar-collapse" id="right-menu">
     <ul class="nav navbar-nav navbar-right">
-        <li style="margin-top: 16px; padding: 15px; color: #F2FF00;">Welcome alpha testers!
+        <li style="margin-top: 17px; padding: 15px; color: #F2FF00;">Welcome alpha testers!
         <li><a href="https://docs.google.com/forms/d/1aeOcd9KKwE4Tur0VLTCaLGHRTFE5SJyz1noQYrnisAo/viewform" target="_blank">File a bug report</a>
         <li><a href="https://docs.google.com/forms/d/1K9XBz6fFA-gMsTK96liatITz6j76zWUO-hV2WYTQ8iU/viewform" target="_blank">Submit feedback</a>
     </ul>
