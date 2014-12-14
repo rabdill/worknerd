@@ -96,10 +96,8 @@ EOF`
 		if [[ $saving -eq 1 ]]; then
 	            if [[ `echo $line | grep -c "<!-- /.column.main -->"` -eq 0 ]]; then
 	                echo $line >> "description.txt"
-			echo "Just wrote |$line| to file:"
     	            else
 	                saving=0
-			echo "Not interesting: |$line|"
 	            fi
 		fi
 
