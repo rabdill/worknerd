@@ -125,7 +125,7 @@ for ($i = 0; $i < sizeof($score); $i++) {
     }
 
     if ($print) {
-        echo "<tr><td>" . "<a href='" . $url[$i] . "' class=\"jobTitle\">" . $title[$i] . "<br>";
+        echo "<tr><td>" . "<a href='" . $url[$i] . "' class=\"jobTitle\">" . $title[$i] . "</a><br>";
 	echo "<img class='sourceLogo' src='";
         #print logo of source
         if (strpos($url[$i], 'www.dice') !== false) echo "img/dice.jpg";
