@@ -44,7 +44,7 @@ EOF`" > to-tag.txt #mysql regex is case-insensitive out of the box
     #tag all the jobs:
     while read listingid
     do
-        echo "Tagging listingid |$listingid|"
+        echo "Tagging listingid |$listingid| with $tech_name"
         echo "`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 	INSERT INTO tags (jobid, techid) VALUES ('$listingid', '$techid')
 EOF`"
