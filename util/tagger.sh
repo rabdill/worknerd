@@ -67,6 +67,7 @@ EOF`
     SELECT salary FROM unprocessed WHERE jobid="$to_move"
 EOF`
 
+    echo "Migrating $(( qty-bad )) listings ($bad deleted due to bad data)." 
     mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
     INSERT INTO listings VALUES ('$to_move', '$url', '$company', '$title', '$salary');
     DELETE FROM unprocessed WHERE jobid='$to_move';
