@@ -24,7 +24,7 @@ $('.btn').button();
 <div class="container">
     <div class="row" style="padding-top: 20px;">
         <div class="col-sm-8">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <h2>What is this?</h2>
                 <p>Work Nerd is a new kind of job-search tool: It's a search engine for <strong>the IT industry's biggest and best job boards</strong>, without the hassle and limitations of ineffective keyword searches.
                 <p>Work Nerd finds the best jobs for you <strong>based on what you're good at</strong> &ndash; just tell it what technologies you want to work with and let the app do the rest. The results you'll receive will be <strong>sorted based on how well they fit <em>your</em> requirements</strong>, and how many of your technologies are listed in the ad.
@@ -56,7 +56,7 @@ $('.btn').button();
                 <p>Just scroll through the list and indicate which technologies you work with. The left checkbox will include it in the search, and the right checkbox will <em>require</em> that technology be included in any results.
             </div>
         </div> 
-        <div class="col-md-4 panel panel-default" id="searchbox" style="margin-top: 20px;">
+        <div class="col-sm-4 panel panel-default" id="searchbox" style="margin-top: 20px;">
         <!-- top margin here is to match the headline on the left side of the page. -->
                 <div class="panel-heading">
                     <h2 class="panel-title">Search</h2>
@@ -71,8 +71,8 @@ $('.btn').button();
                      while($info = mysql_fetch_array($data))
                      {
                         echo "<div class=\"row panel panel-default\">
-                            <div class=\"col-sm-6\">" . $info['tech'] . "</div>";
-                        echo "<div class=\"col-sm-6\">
+                            <div class=\"col-xs-6\">" . $info['tech'] . "</div>";
+                        echo "<div class=\"col-xs-6\">
                                 <div class=\"btn-group\" data-toggle=\"buttons\">
                                 <label class=\"btn btn-include\">";
                         echo "<input type='checkbox' name='tech[]' value='" . $info['techid'] . "'>Include
