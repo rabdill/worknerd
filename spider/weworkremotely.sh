@@ -56,7 +56,7 @@ EOF`
 		    do
 		    	if [[ $found == 1 ]]; then
 		    		descriptions[$i]=$line
-		    		echo "description is |${descriptions[$i]}|"
+		    		#echo "description is |${descriptions[$i]}|"
 		    		break
 		    	else
 			    	if [[ `echo $line | grep -c "<div class=\"listing-container\">"` -gt 0 ]]
