@@ -1,7 +1,8 @@
 body {
-    font-size: 20px;
+    font-size: 18px;
     padding-top: 80px;
 }
+
 
 .navbar {
     background-color: #333333;
@@ -27,8 +28,9 @@ a:hover {
 
 .sourceLogo {
     height: 20px;
+    margin-left: 100px;
 }
-
+/*
 table tr td {
     font-size: 1.5em;
     line-height: 1.5em!important;
@@ -62,4 +64,4 @@ h2 {
     #font-family: 'Special Elite', cursive;
 #    font-family: 'Walter Turncoat', cursive;
 
-}
+}  */

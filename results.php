@@ -1,14 +1,29 @@
-<html>
-<head>
-    <link rel="stylesheet" href="css/foundation.css">
-    <link rel="stylesheet" href="css/worknerd.css">
-    <script src="js/vendor/modernizr.js"></script>
+<?php
+    include 'data.php';
+    include 'head.php';
+?>
+    <link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+    <title>Tech job listings, IT careers | Work Nerd</title>
+    <style>
+    .table-hover > tbody > tr:hover {
+        background-color: #E8E9FF;
+    }
+    .label {
+        margin: 3px;
+        line-height: 2;
+    }
+    .jobTitle {
+        font-size: 20px;
+        font-family: 'Fredoka One', cursive;  
+    }
+    </style>
 </head>
 <body>
-<h1><a href="/">worknerd.com</a></h1>
 
+<?php include 'navbar.php'; ?>
 
-<table>
+<div class="container" style="padding-top: 20px;">
+<table class="table table-striped table-hover">
 <thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<tbody>
 
 
@@ -32,7 +47,7 @@ if (isset($_GET['tech']) === false) {
 else {
     if (isset($_GET['required'])) {
         $search = array_merge(array_flip(array_flip(array_merge($_GET['tech'], $_GET['required']))));
-        echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
+       # echo "<a href=\"#\" data-reveal-id=\"refineSearch\">Refine your search</a>";
     }
 
     else {
@@ -70,10 +85,10 @@ while ($info=mysql_fetch_array($data)) {
     while ($info1=mysql_fetch_array($data1)) {
     	if(in_array($info1['techid'], $search)) {
     	    $points += 1;
-	    $tags[$n] .= "<span class=\"round success label\">" . $info1['tech'] . "</span> ";
+	    $tags[$n] .= "<span class=\"label label-success\">" . $info1['tech'] . "</span> ";
     	}
 	else {
-	    $tags[$n] .= "<span class=\"round secondary label\">" . $info1['tech'] . "</span>";
+	    $tags[$n] .= "<span class=\"label label-default\">" . $info1['tech'] . "</span> ";
 	    
 	    #We're keeping a list of techs that show up OUTSIDE of the search:
 	    $extraTechIds[$extraNum] = $info1['techid'];
@@ -110,7 +125,7 @@ for ($i = 0; $i < sizeof($score); $i++) {
     }
 
     if ($print) {
-        echo "<tr><td>" . "<a href='" . $url[$i] . "'>" . $title[$i] . "<br>";
+        echo "<tr><td>" . "<a href='" . $url[$i] . "' class=\"jobTitle\">" . $title[$i] . "<br>";
 	echo "<img class='sourceLogo' src='";
         #print logo of source
         if (strpos($url[$i], 'www.dice') !== false) echo "img/dice.jpg";
@@ -127,12 +142,12 @@ for ($i = 0; $i < sizeof($score); $i++) {
 
 ?>
 </table>
+</div>
 
 
 
 
-
-<!-- modal for refining search terms -->
+<!-- modal for refining search terms
 <div id="refineSearch" class="reveal-modal" data-reveal>
   <h2>Get better results</h2>
   <p class="lead">Below are the technologies that appeared alongside your search terms most frequently. Consider adding some to your search:</p>
@@ -167,12 +182,7 @@ for ($i = 0; $i < sizeof($score); $i++) {
 
   <a class="close-reveal-modal">&#215;</a>
 </div>
-
-<script src="/js/vendor/jquery.js"></script>
-<script src="/js/foundation.min.js"></script>
-<script>
-    $(document).foundation();
-</script>
+-->
 
 </body>
 </html>

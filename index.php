@@ -9,6 +9,11 @@
     padding-top: 10px;
 }
 
+#searchbox {
+    padding: 0;
+}
+
+
 </style>
 
 </head>
@@ -51,36 +56,36 @@
             <p>Just scroll through the list and indicate which technologies you work with. The left checkbox will include it in the search, and the right checkbox will <em>require</em> that technology be included in any results.
         </div>
         
-        <div class="col-md-6">
-            <form action="results.php" method="GET"> 
-                <?php
-                $query = "SELECT * FROM techs;";
-                $data=mysql_query($query);?>
-                <div style="height: 300px; overflow-y: scroll; overflow-x: hidden;">
+        <div class="col-md-6 panel panel-default" id="searchbox">
+            <div class="panel-heading">
+                <h2 class="panel-title">Search</h2>
+            </div>
+            <div class="panel-body">
+                <form action="results.php" method="GET" class="panel-body"> 
                     <?php
-                    while($info = mysql_fetch_array($data))
-                    {
-                            echo "<div class=\"row\" style=\"margin-left: 70px;\">
-                                    <div class=\"small-6 columns\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $info['techid'];
-                            echo "'>" . $info['tech'] . "</label>
-                                    <input type='checkbox' name='required[]' value='" . $info['techid'] . "'></div></div>";
-                    }
-                    ?>
-                </div>
-                <div style="text-align: center; padding-top: 10px;">                                          
-                    <input type="submit" value="Search" class="btn btn-primary btn-lg">
-                </div>
-            </form>
+                    $query = "SELECT * FROM techs;";
+                    $data=mysql_query($query);?>
+                    <div style="height: 300px; overflow-y: scroll; overflow-x: hidden;">
+                        <?php
+                        while($info = mysql_fetch_array($data))
+                        {
+                                echo "<div class=\"row\" style=\"margin-left: 70px;\">
+                                        <div class=\"small-6 columns\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $info['techid'];
+                                echo "'>" . $info['tech'] . "</label>
+                                        <input type='checkbox' name='required[]' value='" . $info['techid'] . "'></div></div>";
+                        }
+                        ?>
+                    </div>
+                    <div style="text-align: center; padding-top: 10px;">                                          
+                        <input type="submit" value="Search" class="btn btn-primary btn-lg">
+                    </div>
+                </form>
+            </div><!-- panel-body -->
         </div>
     </div>
 </div>
 
 
-    <script src="/js/vendor/jquery.js"></script>
-    <script src="/js/foundation.min.js"></script>
-    <script>
-    $(document).foundation();
-</script>
 
 </body>
 </html>
