@@ -28,6 +28,9 @@ EOF`" > unprocessed-ids.txt
 
 while read tech_name
 do
+    #escape special characters
+    tech_name=`echo $tech_name | sed 's/\+/\\\+/g'`
+
     echo "Searching for |$tech_name|"
     techid=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
 SELECT techid FROM techs WHERE tech="$tech_name";
