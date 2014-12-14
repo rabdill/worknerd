@@ -20,7 +20,9 @@
 </head>
 <body>
 
-<?php include 'navbar.php'; ?>
+<?php
+    include 'google-analytics.php';
+    include 'navbar.php'; ?>
 
 <div class="container" style="padding-top: 20px;">
 <table class="table table-striped table-hover">

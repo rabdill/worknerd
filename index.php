@@ -20,7 +20,9 @@ $('.btn').button();
 
 </head>
 <body>
-<?php include 'navbar.php'; ?>
+<?php 
+    include 'google-analytics.php';
+    include 'navbar.php'; ?>
 <div class="container">
     <div class="row" style="padding-top: 20px;">
         <div class="col-sm-8">
