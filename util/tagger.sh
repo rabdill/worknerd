@@ -51,6 +51,8 @@ EOF`"
     done < "to-tag.txt"
 done < "techs.txt"	
 
+echo "Migrating $(( qty-bad )) listings ($bad deleted due to bad data)." 
+
 #move all the jobs out of "unprocessed"
 while read to_move
 do
@@ -67,7 +69,6 @@ EOF`
     SELECT salary FROM unprocessed WHERE jobid="$to_move"
 EOF`
 
-    echo "Migrating $(( qty-bad )) listings ($bad deleted due to bad data)." 
     mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
     INSERT INTO listings VALUES ('$to_move', '$url', '$company', '$title', '$salary');
     DELETE FROM unprocessed WHERE jobid='$to_move';
