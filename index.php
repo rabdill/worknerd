@@ -66,16 +66,21 @@
                     $query = "SELECT * FROM techs;";
                     $data=mysql_query($query);?>
                     <div style="height: 300px; overflow-y: scroll; overflow-x: hidden;">
-                        <?php
-                        while($info = mysql_fetch_array($data))
-                        {
-                                echo "<div class=\"row\" style=\"margin-left: 70px;\">
-                                        <div class=\"small-6 columns\"><label class=\"techs\"><input type='checkbox' name='tech[]' value='" . $info['techid'];
-                                echo "'>" . $info['tech'] . "</label>
-                                        <input type='checkbox' name='required[]' value='" . $info['techid'] . "'></div></div>";
-                        }
-                        ?>
-                    </div>
+             <?php
+                 while($info = mysql_fetch_array($data))
+                 {
+                    echo "<div class=\"row\">
+                        <div class=\"col-sm-6\">" . $info['tech'] . "  "  ;
+                    echo "<div class=\"btn-group\" data-toggle=\"buttons\">
+                            <label class=\"btn btn-primary\">";
+                    echo "<input type='checkbox' name='tech[]' value='" . $info['techid'] . "' autocomplete=\"off\">Include
+                         <label class=\"btn btn-primary\">
+                            <input type='checkbox' name='required[]' value='" . $info['techid'] . "' autocomplete=\"off\">Require
+                            </label>
+                            </label></div>
+                        </div></div>";
+                }
+                       ?>
                     <div style="text-align: center; padding-top: 10px;">                                          
                         <input type="submit" value="Search" class="btn btn-primary btn-lg">
                     </div>
