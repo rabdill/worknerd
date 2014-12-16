@@ -94,8 +94,5 @@ $('.btn').button();
             </div>
         </div>
 </div>
-
-
-
 </body>
 </html>
