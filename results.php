@@ -190,6 +190,16 @@ for ($i = 0; $i < sizeof($score); $i++) {
                 echo "<input type='hidden' name='tech[]' value='" . $search[$i] . "'>\n";
                 $i++; 
             } 
+
+            #attach the required terms again
+            if (isset($_GET['required'])) {
+                $i = 0;
+                while($i < sizeof($_GET['required']))
+                {
+                    echo"<input type='hidden' name='required[]' value='" . $_GET['required'][$i] . "'>\n";
+                    $i++;
+                }
+            }
             ?>
             </div><!-- the scrolling div -->
             <input type="submit" value="Search" class="btn btn-primary btn-lg">
