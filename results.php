@@ -37,7 +37,7 @@ $(function () {
 
 <div class="container" style="padding-top: 20px;">
 <table class="table table-striped table-hover">
-<thead><th>Job<th>Company<th>Salary<th>Tags<th>Points<span class="label label-primary" data-toggle="tooltip" data-placement="top" title="The score is based on how many search terms are matched by the listing's tags." style="font-size: 1.2em; font-weight: bold;">?</span><tbody>
+<thead><th>Job<th>Company<th>Salary<th>Location<th>Tags<th>Points<span class="label label-primary" data-toggle="tooltip" data-placement="top" title="The score is based on how many search terms are matched by the listing's tags." style="font-size: 1.2em; font-weight: bold;">?</span><tbody>
 
 
 
@@ -65,13 +65,11 @@ else {
         echo "<a href=\"#\" data-toggle=\"modal\" data-target=\"#refine\">Refine your search</a>";
     }
 }
-$query = "SELECT L.jobid AS jobid, L.url AS url, L.company AS company, L.title AS title, L.salary as salary, x.tech as tech
+$query = "SELECT L.jobid AS jobid, L.url AS url, L.company AS company, L.title AS title, L.salary as salary, L.location as location, x.tech as tech
 FROM listings L
 LEFT JOIN tags t ON L.jobid=t.jobid
 LEFT JOIN techs x ON t.techid=x.techid
 WHERE t.techid IN (" . implode(",",$search);
-
-#if (isset($_GET['required'])) $query .= ", " . implode(",",$_GET['required']);
 
 $query .=  ") GROUP BY url";
 
@@ -85,6 +83,7 @@ while ($info=mysql_fetch_array($data)) {
     $title[$n] = $info['title'];
     $company[$n] = $info['company'];
     $salary[$n] = $info['salary'];
+    $location[$n] = $info['location'];
 
     $query1="SELECT x.tech AS tech, t.techid AS techid FROM techs x
 	LEFT JOIN tags t ON x.techid=t.techid
@@ -117,7 +116,7 @@ $extraTechNames = array_merge(array_flip(array_flip($extraTechNames)));
 #Put em in alphabetical order:
 array_multisort($extraTechNames, SORT_ASC, $extraTechIds);
 
-array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary, $tags);
+array_multisort($score, SORT_DESC, $title, SORT_ASC, $company, $url, $salary, $location, $tags);
 
 for ($i = 0; $i < sizeof($score); $i++) {
     #Check to make sure it has the required techs
@@ -145,7 +144,7 @@ for ($i = 0; $i < sizeof($score); $i++) {
         else echo "http://imgc.allpostersimages.com/images/P-473-488-90/74/7476/IB2Q100Z/posters/danger-fart-zone-humor-sign-poster.jpg";
 
 
-    echo "'></a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
+    echo "'></a><td>" . $company[$i] . "<td>" . $salary[$i] . "<td>" . $location[$i] . "<td>" . $tags[$i] . "<td>" . $score[$i] . "\n";
     }
 }
 
