@@ -68,9 +68,12 @@ EOF`
     salary=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
     SELECT salary FROM unprocessed WHERE jobid="$to_move"
 EOF`
+    location=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
+    SELECT location FROM unprocessed WHERE jobid="$to_move"
+EOF`
 
     mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-    INSERT INTO listings VALUES ('$to_move', '$url', '$company', '$title', '$salary');
+    INSERT INTO listings VALUES ('$to_move', '$url', '$company', '$title', '$salary', '$location');
     DELETE FROM unprocessed WHERE jobid='$to_move';
 EOF
 done < "unprocessed-ids.txt"

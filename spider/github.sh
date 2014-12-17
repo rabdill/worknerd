@@ -33,6 +33,8 @@ do
     declare -a urls
     declare -a descriptions
     declare -a companies
+    declare -a locations
+    declare -a states
 
 #Collect the job links
     let i=0
@@ -63,6 +65,7 @@ EOF`
     	    curl -L ${urls[$i]} > temp.txt
 
     	    companies[$i]=`cat temp.txt | grep "a href=\"/companies" | sed 's/[^"]*"\/companies\/\([^"]*\)".*$/\1/g'`
+            locations[$i]=`cat temp.txt | grep supertitle | sed 's/[^/]*\/ \([^<]*\).*/\1/'`
 
     	    #if the company isn't found with that regex
     	    if [[ -z ${companies[$i]} ]]; then
@@ -114,9 +117,10 @@ EOF`
 	urls[$i]=`echo ${urls[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\\;/g' | sed 's/>/\&gt\\;/g';`
 	titles[$i]=`echo ${titles[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\\;/g' | sed 's/>/\&gt\\;/g';`
 	descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\\;/g' | sed 's/>/\&gt\\;/g';`
+        locations[$i]=`echo ${locations[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\\;/g' | sed 's/>/\&gt\\;/g';`
 
 	SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-INSERT INTO unprocessed (url, company, title, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}')
+INSERT INTO unprocessed (url, company, title, description, location) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}', '${locations[$i]}')
 EOF`	
 	fi
 	i=$(( i+1 ))
