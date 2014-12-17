@@ -2,7 +2,8 @@
     include 'data.php';
     include 'head.php';
 ?>
-    <link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+
+    <link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
     <title>Tech job listings, IT careers | Work Nerd</title>
     <style>
     .table-hover > tbody > tr:hover {
@@ -14,7 +15,10 @@
     }
     .jobTitle {
         font-size: 20px;
-        font-family: 'Fredoka One', cursive;  
+        font-family: 'News Cycle', sans-serif; 
+    }
+    a {
+        color: #0341FF;
     }
     </style>
 </head>
