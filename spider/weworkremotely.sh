@@ -19,6 +19,7 @@ do
 	declare -a salaries
 	declare -a descriptions
 	declare -a companies
+        declare -a locations
 
 	#Collect the job links
 	let i=0
@@ -50,6 +51,9 @@ EOF`
 		    #scrape company
 		    companies[$i]=`cat temp.txt | grep "<span class=\"company\">" | sed 's/^[^>]*\?>\(.*\?\)<\/span>.*$/\1/g'`
 
+                    #scrape location
+                    locations[$i]=`cat temp.txt | grep "span class=\"location\"" | sed 's/^.*Headquarters: \([^<]*\).*$/\1/'`
+
 		    #scrape description
 		    found=0
 		    while read line
@@ -74,10 +78,10 @@ EOF`
 			companies[$i]=`echo ${companies[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
 			titles[$i]=`echo ${titles[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
 			descriptions[$i]=`echo ${descriptions[$i]} | sed 's/[)(%"\\]/\\&/g' | sed "s/[']/\\\&/g";`
-
+                        locations[$i]=`echo ${locations[$i]} | sed 's/[)(%"\\]/\\\&/g' | sed "s/[']/\\\&/g" | sed 's/</\&lt\;/g' | sed 's/>/\&gt\;/g';`
 
 			SQL=`mysql -s -r -N -h $dbendpoint -D results -u $dbuser -p$dbpassword <<EOF
-			INSERT INTO unprocessed (url, company, title, description) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}')
+			INSERT INTO unprocessed (url, company, title, description, location) VALUES ('${urls[$i]}', '${companies[$i]}', '${titles[$i]}', '${descriptions[$i]}', '${locations[$i]}')
 EOF`
 		fi	
 		i=$(( i+1 ))
