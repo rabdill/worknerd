@@ -33,7 +33,7 @@ $('.btn').button();
                 <p>It's time a website gave you a tool to search for jobs the way that you want to. It's time for Work Nerd.
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-60000000">
             <?php
                 $query = "SELECT COUNT(jobid) AS inventory FROM listings";
                 $info = mysql_fetch_array(mysql_query($query));
@@ -44,6 +44,9 @@ $('.btn').button();
                 $query = "SELECT COUNT(tagid) AS tags FROM tags";
                 $info = mysql_fetch_array(mysql_query($query));
                 $averageTags = $info['tags'] / $inventory;
+                $query = "SELECT COUNT(jobid) AS salaried FROM listings WHERE salary IS NOT null";
+                $info = mysql_fetch_array(mysql_query($query));
+                $salaried = ($info['salaried'] * 100) / $inventory ;
             ?>
                 <h2>What are the numbers?</h2>
                 <ul class="spread-out">
@@ -51,6 +54,7 @@ $('.btn').button();
                     <li> using <strong><?php echo$techs; ?> different technologies</strong>,
                     <li>from <strong>4 IT job boards</strong>, including <a href="http://www.dice.com">Dice</a>, <a href="http://jobs.github.com">GitHub</a>, and <a href="https://weworkremotely.com">WeWorkRemotely</a> (from <a href="https://signalvnoise.com/posts/3671-our-new-job-board-weworkremotelycom">the Basecamp people</a>).
                     <li>The average listing is tagged with <strong><?php echo round($averageTags, 2); ?> technologies</strong>.
+                    <li><strong><?php echo round($salaried, 1); ?> percent</strong> of listings have salary data.
                 </ul>
             </div>
             <div class="col-md-6">
